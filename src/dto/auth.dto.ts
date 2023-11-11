@@ -23,6 +23,9 @@ export  class signUpDTO {
     @IsNotEmpty()
     firstName:string;
     @IsNotEmpty()
-    lastName:string ;
+    lastName:string;
+    @IsNotEmpty()
+    @IsString()
+    role:string;
 
 }

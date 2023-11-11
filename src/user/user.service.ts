@@ -11,7 +11,7 @@ export class UserService {
         console.log(user)
         const userInfo = await this.databaseService.user.findUnique({
             where:{
-                email:user.username
+                email:user.email
             }
         })
         return  userInfo
