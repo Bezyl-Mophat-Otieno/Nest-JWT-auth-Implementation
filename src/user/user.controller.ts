@@ -1,4 +1,4 @@
-import { Controller, Get, Req , Put} from "@nestjs/common";
+import { Controller, Get, Req , Put, Param, ParseIntPipe, Body, Delete} from "@nestjs/common";
 import { UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { UserService } from "./user.service";
@@ -27,9 +27,37 @@ export class UserController{
     }
     @Roles(['admin'])
     @UseGuards(AuthGuard('jwt'),RolesGuard)
-    @Put('update')
-    updateInfo(){
-
-        return 'Updated user'
+    @Put(':id')
+    async updateInfo(@Param('id', ParseIntPipe ) id:number , @Body() dto:any ){
+        const updateInfo = {...dto , id}
+        return this.userService.updateInfo(updateInfo)
     }
+    
+    @Roles(['admin'])
+    @UseGuards(AuthGuard('jwt'),RolesGuard)
+    @Get(':id')
+    async getUser(@Param('id',ParseIntPipe) id:number){
+
+        return this.userService.getUser(id)
+
+    }
+
+    @Roles(['admin'])
+    @UseGuards(AuthGuard('jwt'),RolesGuard)
+    @Get()
+    async getAllUsers(){
+
+        return this.userService.getAllUsers()
+
+    }
+
+    @Roles(['admin'])
+    @UseGuards(AuthGuard('jwt'),RolesGuard)
+    @Delete(':id')
+    async deleteUser(@Param('id',ParseIntPipe) id:number){
+
+        return this.userService.deleteUser(id)
+
+    }
+
 }
